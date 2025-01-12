@@ -4,6 +4,19 @@
 
   <url>
     <loc>/post/ascii%E8%A1%A8/</loc>
+    <lastmod>2025-01-12T20:36:32+08:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>/</loc>
+    <lastmod>2025-01-12T20:36:32+08:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2025-01-12T20:36:32+08:00</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
@@ -24,11 +37,6 @@
   </url>
   <url>
     <loc>/post/moectf2024-crypto/</loc>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>/link/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
@@ -68,22 +76,17 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>/</loc>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>/post/%E5%9B%9B%E5%8F%89%E6%A0%91%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>/post/</loc>
+    <loc>/post/%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2%E6%A8%A1%E6%8B%9F/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>/post/%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2%E6%A8%A1%E6%8B%9F/</loc>
+    <loc>/link/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url>
