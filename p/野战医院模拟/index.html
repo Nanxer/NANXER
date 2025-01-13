@@ -10,7 +10,7 @@
 <meta property='og:description' content="代码分析 核心思路 为每个医生建立一个病人队列，当有病人到达后，先将病人入一医生的病人队列，再将此医生加入模拟队列，其他仿照课本模拟银行。\n结构 病人结构 1 2 3 4 5 6 7 8 9 10 11 12 13 // 病人结构体 struct Patient { int ArrivalTime; // 到达时间 int realArrivalTime; // 真实到达时间 int DepartureTime; // 离开时间=ArrivalTime+WaitTime+NeedTime int WaitTime; // 等待时间 int preWaitTime; // 之前的等待时间 int NeedTime; // 治疗时间 int PatientID; // 病人ID int danger; // 危险等级,0:normal,1:low int event; // 事件类型,0:arrival,1:departure int priority; // 优先级,event为0时，比较ArrivalTime+WaitTime，event为1时，比较DepartureTime 用于优先级队列的比较 }; 医生结构 1 2 3 4 5 6 7 8 9 10 11 // 医生结构体 struct Doctor { int TotalPatientsNum; // 该医生总共处理病人数 int TotalTimeService; // 该医生总共服务时间 int DoctorID; // 医生ID int nowPatient; // 当前处理的病人ID int Pnum; //当前排队的病人数 int* PQueue; //排队病人队列 }; 模拟结构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 // 仿真结构体 struct Simulation { Patient* Patients; //病人数组 Doctor* Doctors; //医生数组 int SimulationTime; //模拟时间 int DoctorNum; //医生数量 int patientNum; //病人数量 int maxWaitTime; //最大等待时间 int pnummax; //手动排队病人最大数量 int Dnum; //当前工作医生人次 int* DQueue; //医生队列 int nowtime; //当前时间 int arrivalLow, arrivalHigh; //到达时间范围 int serviceLow, serviceHigh; //服务时间范围 }; 控制条件 1 2 3 4 5 6 //*********Tools**********// bool GreenWindow = false; //是否启用绿色窗口 bool Chadui = false; //是否开启插队功能 bool WaitMax = false; //是否有最大等待时间 bool handle = false; //是否手动输入 //*********Tools**********// 操作功能 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 void initPatient(Patient&amp; p, int AT, int NT,int PID, intD);//病人初始化 void initDoctor(Doctor&amp; d, int DID);//医生初始化 int findDoctor(Simulation s, int danger,int nowtime);//寻找合适的医生 void inPQueue(Simulation&amp; s, Doctor&amp; d, Patient&amp; p);//病人入医生的队 int findPatient(Simulation s, Doctor&amp; d);//找到优先级最前的病人 void inDQueue(Simulation&amp; s, Doctor d);//医生入模拟的队 int outDQueue(Simulation&amp; s);//医生出模拟的队 void curePatient(Simulation&amp; s, Doctor&amp; d, Patient&amp; p);//病人治疗完成 int gettime(Simulation s); //随机下一个到达时间间隔 int getneedtime(Simulation s);//随机治疗时间 bool isDQueueEmpty(Simulation s);//判医生队列空 void initSimulation(Simulation&amp; s);//初始化仿真 void runSimulation(Simulation&amp; s);//运行仿真 void printResult(Simulation s);//打印仿真结果 void curenextPatient(Simulation&amp; s, Doctor&amp; d);//预治疗下一个病人 void maxdelWaitTime(Simulation&amp; s);//处理最大等待时间 模拟结果 示例数据 控制条件：\n">
 <meta property='og:url' content='/p/%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2%E6%A8%A1%E6%8B%9F/'>
 <meta property='og:site_name' content='Nanxer&#39;s blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='og:image' content='/p/%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2%E6%A8%A1%E6%8B%9F/feature.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='队列' /><meta property='article:published_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='og:image' content='/p/%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2%E6%A8%A1%E6%8B%9F/feature.png' />
 <meta name="twitter:title" content="野战医院模拟">
 <meta name="twitter:description" content="代码分析 核心思路 为每个医生建立一个病人队列，当有病人到达后，先将病人入一医生的病人队列，再将此医生加入模拟队列，其他仿照课本模拟银行。\n结构 病人结构 1 2 3 4 5 6 7 8 9 10 11 12 13 // 病人结构体 struct Patient { int ArrivalTime; // 到达时间 int realArrivalTime; // 真实到达时间 int DepartureTime; // 离开时间=ArrivalTime+WaitTime+NeedTime int WaitTime; // 等待时间 int preWaitTime; // 之前的等待时间 int NeedTime; // 治疗时间 int PatientID; // 病人ID int danger; // 危险等级,0:normal,1:low int event; // 事件类型,0:arrival,1:departure int priority; // 优先级,event为0时，比较ArrivalTime+WaitTime，event为1时，比较DepartureTime 用于优先级队列的比较 }; 医生结构 1 2 3 4 5 6 7 8 9 10 11 // 医生结构体 struct Doctor { int TotalPatientsNum; // 该医生总共处理病人数 int TotalTimeService; // 该医生总共服务时间 int DoctorID; // 医生ID int nowPatient; // 当前处理的病人ID int Pnum; //当前排队的病人数 int* PQueue; //排队病人队列 }; 模拟结构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 // 仿真结构体 struct Simulation { Patient* Patients; //病人数组 Doctor* Doctors; //医生数组 int SimulationTime; //模拟时间 int DoctorNum; //医生数量 int patientNum; //病人数量 int maxWaitTime; //最大等待时间 int pnummax; //手动排队病人最大数量 int Dnum; //当前工作医生人次 int* DQueue; //医生队列 int nowtime; //当前时间 int arrivalLow, arrivalHigh; //到达时间范围 int serviceLow, serviceHigh; //服务时间范围 }; 控制条件 1 2 3 4 5 6 //*********Tools**********// bool GreenWindow = false; //是否启用绿色窗口 bool Chadui = false; //是否开启插队功能 bool WaitMax = false; //是否有最大等待时间 bool handle = false; //是否手动输入 //*********Tools**********// 操作功能 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 void initPatient(Patient&amp; p, int AT, int NT,int PID, intD);//病人初始化 void initDoctor(Doctor&amp; d, int DID);//医生初始化 int findDoctor(Simulation s, int danger,int nowtime);//寻找合适的医生 void inPQueue(Simulation&amp; s, Doctor&amp; d, Patient&amp; p);//病人入医生的队 int findPatient(Simulation s, Doctor&amp; d);//找到优先级最前的病人 void inDQueue(Simulation&amp; s, Doctor d);//医生入模拟的队 int outDQueue(Simulation&amp; s);//医生出模拟的队 void curePatient(Simulation&amp; s, Doctor&amp; d, Patient&amp; p);//病人治疗完成 int gettime(Simulation s); //随机下一个到达时间间隔 int getneedtime(Simulation s);//随机治疗时间 bool isDQueueEmpty(Simulation s);//判医生队列空 void initSimulation(Simulation&amp; s);//初始化仿真 void runSimulation(Simulation&amp; s);//运行仿真 void printResult(Simulation s);//打印仿真结果 void curenextPatient(Simulation&amp; s, Doctor&amp; d);//预治疗下一个病人 void maxdelWaitTime(Simulation&amp; s);//处理最大等待时间 模拟结果 示例数据 控制条件：\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='/p/%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2%E6%A8%A1%E6%8B%9F/feature.png' />
@@ -309,6 +309,14 @@
     
 
     <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E9%98%9F%E5%88%97/" >
+                队列
+            </a>
+        
+    </header>
     
 
     <div class="article-title-wrapper">
@@ -2078,6 +2086,12 @@
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">

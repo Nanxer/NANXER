@@ -10,7 +10,7 @@
 <meta property='og:description' content="现代密码学入门指北 根据已有信息，得到d=10937306181556310949935858914795529677662422361690470235893559064877687528573\n直接计算\nSignin 计算p,q,d即可\n1 2 3 4 5 p=-(pq-n+p_q-2) q=-(qp-n+p_q-2) d=reverse(e,(p-1)*(q-1)) print(long_to_bytes(pow(c,d,n))) #b&#39;moectf{Just_4_signin_ch4ll3ng3_for_y0u}&#39; ez_hash 1.网站查表\n2.直接爆破\nBig and small e很小=&gt;m^e&lt;n或者没比n大多少，那对c+kn开1/e次方的根就是m\n1 2 3 4 5 6 7 8 9 10 import libnum from gmpy2 import iroot c = 150409620528288093947185249913242033500530715593845912018225648212915478065982806112747164334970339684262757 n = 20279309983698966932589436610174513524888616098014944133902125993694471293062261713076591251054086174169670848598415548609375570643330808663804049384020949389856831520202461767497906977295453545771698220639545101966866003886108320987081153619862170206953817850993602202650467676163476075276351519648193219850062278314841385459627485588891326899019745457679891867632849975694274064320723175687748633644074614068978098629566677125696150343248924059801632081514235975357906763251498042129457546586971828204136347260818828746304688911632041538714834683709493303900837361850396599138626509382069186433843547745480160634787 e = 3 c_root =iroot(c,e) cc=libnum.n2s(int(c_root[0])) print(cc) #flag{xt&gt;is&gt;s&gt;b} 上个大刀也行coppersmith\nbaby_equation 1 2 3 4 5 6 7 8 from Crypto.Util.number import * from secret import flag l = len(flag) m1, m2 = flag[:l//2], flag[l//2:] a = bytes_to_long(m1) b = bytes_to_long(m2) k = 0x2227e398fc6ffcf5159863a345df85ba50d6845f8c06747769fee78f598e7cb1bcf875fb9e5a69ddd39da950f21cb49581c3487c29b7c61da0f584c32ea21ce1edda7f09a6e4c3ae3b4c8c12002bb2dfd0951037d3773a216e209900e51c7d78a0066aa9a387b068acbd4fb3168e915f306ba40 assert ((a**2 + 1)*(b**2 + 1) - 2*(a - b)*(a*b - 1)) == 4*(k + a*b) 对 ((a**2 + 1)*(b**2 + 1) - 2*(a - b)*(a*b - 1)) == 4*(k + a*b)作处理，得到(a + 1)^2*(b - 1)^2 == 4*k\n">
 <meta property='og:url' content='/p/moectf-crypto/'>
 <meta property='og:site_name' content='Nanxer&#39;s blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='og:image' content='/p/moectf-crypto/feature.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='crypto' /><meta property='article:published_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-12-07T00:00:00&#43;00:00'/><meta property='og:image' content='/p/moectf-crypto/feature.png' />
 <meta name="twitter:title" content="MoeCTF-crypto">
 <meta name="twitter:description" content="现代密码学入门指北 根据已有信息，得到d=10937306181556310949935858914795529677662422361690470235893559064877687528573\n直接计算\nSignin 计算p,q,d即可\n1 2 3 4 5 p=-(pq-n+p_q-2) q=-(qp-n+p_q-2) d=reverse(e,(p-1)*(q-1)) print(long_to_bytes(pow(c,d,n))) #b&#39;moectf{Just_4_signin_ch4ll3ng3_for_y0u}&#39; ez_hash 1.网站查表\n2.直接爆破\nBig and small e很小=&gt;m^e&lt;n或者没比n大多少，那对c+kn开1/e次方的根就是m\n1 2 3 4 5 6 7 8 9 10 import libnum from gmpy2 import iroot c = 150409620528288093947185249913242033500530715593845912018225648212915478065982806112747164334970339684262757 n = 20279309983698966932589436610174513524888616098014944133902125993694471293062261713076591251054086174169670848598415548609375570643330808663804049384020949389856831520202461767497906977295453545771698220639545101966866003886108320987081153619862170206953817850993602202650467676163476075276351519648193219850062278314841385459627485588891326899019745457679891867632849975694274064320723175687748633644074614068978098629566677125696150343248924059801632081514235975357906763251498042129457546586971828204136347260818828746304688911632041538714834683709493303900837361850396599138626509382069186433843547745480160634787 e = 3 c_root =iroot(c,e) cc=libnum.n2s(int(c_root[0])) print(cc) #flag{xt&gt;is&gt;s&gt;b} 上个大刀也行coppersmith\nbaby_equation 1 2 3 4 5 6 7 8 from Crypto.Util.number import * from secret import flag l = len(flag) m1, m2 = flag[:l//2], flag[l//2:] a = bytes_to_long(m1) b = bytes_to_long(m2) k = 0x2227e398fc6ffcf5159863a345df85ba50d6845f8c06747769fee78f598e7cb1bcf875fb9e5a69ddd39da950f21cb49581c3487c29b7c61da0f584c32ea21ce1edda7f09a6e4c3ae3b4c8c12002bb2dfd0951037d3773a216e209900e51c7d78a0066aa9a387b068acbd4fb3168e915f306ba40 assert ((a**2 + 1)*(b**2 + 1) - 2*(a - b)*(a*b - 1)) == 4*(k + a*b) 对 ((a**2 + 1)*(b**2 + 1) - 2*(a - b)*(a*b - 1)) == 4*(k + a*b)作处理，得到(a + 1)^2*(b - 1)^2 == 4*k\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='/p/moectf-crypto/feature.png' />
@@ -291,6 +291,14 @@
     
 
     <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/ctf/" >
+                CTF
+            </a>
+        
+    </header>
     
 
     <div class="article-title-wrapper">
@@ -2793,6 +2801,12 @@ $$<p>收集2*n组数据，把c看作变量，求c</p>
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/crypto/">Crypto</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -2841,6 +2855,111 @@ $$<p>收集2*n组数据，把c看作变量，求c</p>
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/irisctf2025/">
+        
+        
+            <div class="article-image">
+                <img src="/p/irisctf2025/feature.1a24a1eae6c079797e55e42cf723e81e_hu1992507693229396758.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post IrisCTF2025"
+                        
+                        data-hash="md5-GiSh6ubAeXl&#43;VeQs9yPoHg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">IrisCTF2025</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/wargames.my-ctf-2024-crypto/">
+        
+        
+            <div class="article-image">
+                <img src="/p/wargames.my-ctf-2024-crypto/feature.0998b1be6b12613d242bba4fa2803ef7_hu9209227582021462541.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post wargames.MY CTF 2024-crypto"
+                        
+                        data-hash="md5-CZixvmsSYT0kK7pPooA&#43;9w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">wargames.MY CTF 2024-crypto</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/newstarctf-crypto/">
+        
+        
+            <div class="article-image">
+                <img src="/p/newstarctf-crypto/feature.00e853dbc097758e4a249ef5d54cd997_hu11694896341648413279.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post NewStarCTF-crypto"
+                        
+                        data-hash="md5-AOhT28CXdY5KJJ711UzZlw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NewStarCTF-crypto</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F_qwb2024_21steps/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F_qwb2024_21steps/feature.bb23bbd31eccd6009d3e727c1031e799_hu16291231894706498031.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 汉明重量_qwb2024_21steps"
+                        
+                        data-hash="md5-uyO70x7M1gCdPnJ8EDHnmQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汉明重量_qwb2024_21steps</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     
