@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="1.安装wsl 网上教程挺多的，随便搜一下就有，就不赘述了\n我选用的是微软商店搜到的第一个Ubuntu，其他的也都可以\n2.安装anaconda 网上搜索anaconda下载linux版（miniconda也可以）Download Now | Anaconda\n在我的电脑输入\\\\wsl$或者直接进入ubuntu的文件夹（如果有）\n把刚才下载好的文件，如Anaconda3-2024.10-1-Linux-x86_64.sh复制过去，进行安装\n1 bash Anaconda3-2024.10-1-Linux-x86_64.sh 后边基本上yes和回车即可\n可以用conda info检测一下是否安装到位\n3.创建sagemath虚拟环境 这里前边我下载的anaconda带的是3.12的python环境，安装的时候看自己的版本情况\n1 2 conda config --add channels conda-forge conda create -n sage sage python=3.12 一段时间后会有这个界面\n这就装好了\n4.vscode远程连接wsl 安装插件wsl\n">
+<title>wsl&#43;vscode&#43;sagemath教程</title>
+
+<link rel='canonical' href='/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="wsl+vscode+sagemath教程">
+<meta property='og:description' content="1.安装wsl 网上教程挺多的，随便搜一下就有，就不赘述了\n我选用的是微软商店搜到的第一个Ubuntu，其他的也都可以\n2.安装anaconda 网上搜索anaconda下载linux版（miniconda也可以）Download Now | Anaconda\n在我的电脑输入\\\\wsl$或者直接进入ubuntu的文件夹（如果有）\n把刚才下载好的文件，如Anaconda3-2024.10-1-Linux-x86_64.sh复制过去，进行安装\n1 bash Anaconda3-2024.10-1-Linux-x86_64.sh 后边基本上yes和回车即可\n可以用conda info检测一下是否安装到位\n3.创建sagemath虚拟环境 这里前边我下载的anaconda带的是3.12的python环境，安装的时候看自己的版本情况\n1 2 conda config --add channels conda-forge conda create -n sage sage python=3.12 一段时间后会有这个界面\n这就装好了\n4.vscode远程连接wsl 安装插件wsl\n">
+<meta property='og:url' content='/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/'>
+<meta property='og:site_name' content='Nanxer&#39;s blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-01-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-01-07T00:00:00&#43;00:00'/><meta property='og:image' content='/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/feature.png' />
+<meta name="twitter:title" content="wsl+vscode+sagemath教程">
+<meta name="twitter:description" content="1.安装wsl 网上教程挺多的，随便搜一下就有，就不赘述了\n我选用的是微软商店搜到的第一个Ubuntu，其他的也都可以\n2.安装anaconda 网上搜索anaconda下载linux版（miniconda也可以）Download Now | Anaconda\n在我的电脑输入\\\\wsl$或者直接进入ubuntu的文件夹（如果有）\n把刚才下载好的文件，如Anaconda3-2024.10-1-Linux-x86_64.sh复制过去，进行安装\n1 bash Anaconda3-2024.10-1-Linux-x86_64.sh 后边基本上yes和回车即可\n可以用conda info检测一下是否安装到位\n3.创建sagemath虚拟环境 这里前边我下载的anaconda带的是3.12的python环境，安装的时候看自己的版本情况\n1 2 conda config --add channels conda-forge conda create -n sage sage python=3.12 一段时间后会有这个界面\n这就装好了\n4.vscode远程连接wsl 安装插件wsl\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/feature.png' />
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky compact">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/favicon_hu7501369908879085649.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Nanxer&#39;s blog</a></h1>
+            <h2 class="site-description">it4keth2ee</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Nanxer'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/">
+                <img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/feature_hu15919371072026974643.png"
+                        srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/feature_hu15919371072026974643.png 800w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/feature_hu18409693685103682878.png 1600w"
+                        width="800" 
+                        height="220" 
+                        loading="lazy"
+                        alt="Featured image of post wsl&#43;vscode&#43;sagemath教程" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/">wsl&#43;vscode&#43;sagemath教程</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 07, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="1安装wsl">1.安装wsl
+</h1><p>网上教程挺多的，随便搜一下就有，就不赘述了</p>
+<p>我选用的是微软商店搜到的第一个Ubuntu，其他的也都可以</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/ubuntu.png"
+	width="1828"
+	height="958"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/ubuntu_hu12539895364336920295.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/ubuntu_hu10759330348138068470.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="190"
+		data-flex-basis="457px"
+	
+></p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/ubuntu2.png"
+	width="1481"
+	height="760"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/ubuntu2_hu7183909818926001844.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/ubuntu2_hu8992787280306917431.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="194"
+		data-flex-basis="467px"
+	
+></p>
+<h1 id="2安装anaconda">2.安装anaconda
+</h1><p>网上搜索anaconda下载linux版（miniconda也可以）<a class="link" href="https://www.anaconda.com/download/success"  target="_blank" rel="noopener"
+    >Download Now | Anaconda</a></p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/anaconda.png"
+	width="1891"
+	height="883"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/anaconda_hu2629619600950872817.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/anaconda_hu12899009757264655634.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="214"
+		data-flex-basis="513px"
+	
+></p>
+<p>在我的电脑输入<code>\\wsl$</code>或者直接进入ubuntu的文件夹（如果有）</p>
+<p>把刚才下载好的文件，如<strong>Anaconda3-2024.10-1-Linux-x86_64.sh</strong>复制过去，进行安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">bash Anaconda3-2024.10-1-Linux-x86_64.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>后边基本上<strong>yes</strong>和回车即可</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/anaconda2.png"
+	width="1481"
+	height="760"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/anaconda2_hu10392919442522156940.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/anaconda2_hu9344619698264439935.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="194"
+		data-flex-basis="467px"
+	
+></p>
+<p>可以用<code>conda info</code>检测一下是否安装到位</p>
+<h1 id="3创建sagemath虚拟环境">3.创建sagemath虚拟环境
+</h1><p>这里前边我下载的anaconda带的是3.12的python环境，安装的时候看自己的版本情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda config --add channels conda-forge
+</span></span><span class="line"><span class="cl">conda create -n sage sage <span class="nv">python</span><span class="o">=</span>3.12
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一段时间后会有这个界面</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/sage.png"
+	width="1481"
+	height="760"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/sage_hu12265865054297843931.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/sage_hu3765125145554155381.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="194"
+		data-flex-basis="467px"
+	
+></p>
+<p>这就装好了</p>
+<h1 id="4vscode远程连接wsl">4.vscode远程连接wsl
+</h1><p>安装插件wsl</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/wsl%E6%8F%92%E4%BB%B6.png"
+	width="1920"
+	height="1020"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/wsl%E6%8F%92%E4%BB%B6_hu7225564009045341299.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/wsl%E6%8F%92%E4%BB%B6_hu619698921076681002.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="188"
+		data-flex-basis="451px"
+	
+></p>
+<p>然后连接ubuntu</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode1.png"
+	width="1920"
+	height="1020"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode1_hu16492777164930575589.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode1_hu11119604456874139141.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="188"
+		data-flex-basis="451px"
+	
+></p>
+<p>创建一个文件夹用与存放sage文件然后打开</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode2.png"
+	width="1920"
+	height="1020"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode2_hu2748219212421538531.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode2_hu2509654187377458436.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="188"
+		data-flex-basis="451px"
+	
+></p>
+<p>安装<strong>SageMath Enhanced</strong>插件</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/wsl%E6%8F%92%E4%BB%B62.png"
+	width="1920"
+	height="1020"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/wsl%E6%8F%92%E4%BB%B62_hu355159355877148767.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/wsl%E6%8F%92%E4%BB%B62_hu16510019358141028839.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="188"
+		data-flex-basis="451px"
+	
+></p>
+<p>然后就可以运行了，写个test测试一下</p>
+<p><img src="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode.png"
+	width="1920"
+	height="1020"
+	srcset="/p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode_hu15315462713123352563.png 480w, /p/wsl-vscode-sagemath%E6%95%99%E7%A8%8B/vscode_hu10705104406276496263.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="188"
+		data-flex-basis="451px"
+	
+></p>
+<p><strong>注意：</strong></p>
+<p>启动点击小三角运行会有command not found，这是因为sage环境没有激活，使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda activate sage
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>(先点击小三角，到新生成的终端内再激活)</p>
+<p>到此就可以了</p>
+<h1 id="5优化">5.优化
+</h1><p>1.安装库可以用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda install -n sage <span class="o">[</span>package<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2.每次运行后都会有一个py文件，可以再写一个脚本（sage文件）删一下，如：<strong>清除py文件.sage</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">glob</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">delete_specific_files</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">file_extension</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pattern</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;*</span><span class="si">{</span><span class="n">file_extension</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">files_to_delete</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files_to_delete</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;文件 </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> 已成功删除。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;删除文件 </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> 时发生错误: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">directory_to_search</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">file_extension_to_delete</span> <span class="o">=</span> <span class="s1">&#39;.py&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">delete_specific_files</span><span class="p">(</span><span class="n">directory_to_search</span><span class="p">,</span> <span class="n">file_extension_to_delete</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3.可以在~/.bashrc文件末尾加一行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda activate sage
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>达到默认启动虚拟环境的效果，不用再激活环境</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Nanxer/Comments"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2024 - 
+        
+        2025 Nanxer
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
